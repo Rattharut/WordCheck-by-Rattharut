@@ -11,8 +11,6 @@
 
   let voices = [];
 
-  // มือถือหลายตัว (เบราว์เซอร์ในแอป Line/Facebook, WebView บาง Android) ไม่มี speechSynthesis
-  // ถ้าเรียกตรงๆ จะพังทั้งสคริปต์ ปุ่ม Translate เลยไม่ทำงานเลย ต้องเช็กก่อนใช้เสมอ
   const synth = ("speechSynthesis" in window) ? window.speechSynthesis : null;
 
   function loadVoices() {
@@ -24,7 +22,7 @@
       voiceSelect.appendChild(o);
       return;
     }
-    // Sort: US, GB, AU first
+
     const priority = { "en-US": 0, "en-GB": 1, "en-AU": 2, "en-CA": 3, "en-IN": 4 };
     voices.sort((a, b) => (priority[a.lang] ?? 9) - (priority[b.lang] ?? 9));
     voices.forEach((v, i) => {
@@ -39,7 +37,6 @@
     loadVoices();
     synth.onvoiceschanged = loadVoices;
   } else {
-    // เครื่องนี้อ่านออกเสียงไม่ได้ ซ่อนปุ่มลำโพงกับช่องเลือกเสียงไปเลย จะได้ไม่กดแล้วเงียบ
     speakBtn.style.display = "none";
     const row = voiceSelect.closest(".voice-row");
     if (row) row.style.display = "none";
@@ -48,12 +45,7 @@
   function setStatus(html) { 
     status.innerHTML = html ? `<div class="card">${html}</div>` : ""; 
   }
-
-  // ---------- แหล่งแปล ----------
-  // ตัวหลักคือ endpoint ของ Google Translate ตัวที่ไม่เป็นทางการ (client=gtx)
-  // ไม่ต้องใช้ API key แต่ Google จำกัดจำนวนคำขอต่อ IP ได้ทุกเมื่อ
-  // ถ้าตัวหลักล้ม จะสลับไปใช้ MyMemory ให้อัตโนมัติ เว็บจะได้ไม่ตายทั้งหน้า
-
+  
   async function fetchJSON(url) {
     const res = await fetch(url);
     if (!res.ok) {
@@ -70,9 +62,6 @@
     return "Google Translate is unreachable from this network";
   }
 
-  // Google มีทางเข้า 2 ทางที่คืนข้อมูลหน้าตาเหมือนกัน
-  // ถ้าทางแรกโดนบล็อก (เจอบ่อยบนเน็ตมือถือ เพราะหลายคนใช้ IP ร่วมกันแล้วโดนจำกัดรวม)
-  // ให้ลองทางที่สองก่อน ค่อยตกไปใช้ MyMemory เป็นทางสุดท้าย
   const GOOGLE_ENDPOINTS = [
     t => `https://translate.googleapis.com/translate_a/single?client=gtx&sl=th&tl=en&dt=t&dt=at&dt=bd&q=${encodeURIComponent(t)}`,
     t => `https://clients5.google.com/translate_a/single?client=dict-chrome-ex&sl=th&tl=en&dt=t&dt=at&dt=bd&q=${encodeURIComponent(t)}`
@@ -120,7 +109,6 @@
   const MYMEMORY_MAX = 500;
 
   async function translateMyMemory(text) {
-    // MyMemory แบบไม่ล็อกอินรับได้ 500 ตัวอักษร ถ้าเกินมันจะไม่แปลให้ กันไว้ก่อนดีกว่ายิงไปเสียเที่ยว
     if (text.length > MYMEMORY_MAX) {
       const e = new Error("too long");
       e.reason = `the backup service only accepts ${MYMEMORY_MAX} characters (you sent ${text.length})`;
@@ -130,8 +118,6 @@
     const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=th|en`;
     const d = await fetchJSON(url);
 
-    // สำคัญ: MyMemory ตอบ HTTP 200 เสมอ แม้ตอนที่มันพัง
-    // ข้อความ error จะถูกยัดมาใน translatedText ถ้าไม่เช็ก จะเอา error ไปโชว์เป็นคำแปล
     const inner = Number(d.responseStatus);
     const raw = ((d.responseData && d.responseData.translatedText) || "").trim();
 
@@ -179,7 +165,6 @@
     }
   }
 
-  // ---------- แสดงผล ----------
   function chipRow(words) {
     const chips = document.createElement("div");
     chips.className = "chips";
@@ -235,7 +220,7 @@
     resultCard.style.display = "none";
     try {
       const r = await translate(text);
-      // แปลสำเร็จแล้ว แค่มาจากแหล่งสำรอง เลยใช้กล่องแจ้งเตือนธรรมดา ไม่ใช่สีแดงแบบ error
+     
       setStatus(r.note
         ? `<div class="notice">Translated with ${r.source} — ${r.note}.</div>`
         : "");
@@ -252,7 +237,7 @@
   });
 
   btn.addEventListener("click", doTranslate);
-  // Text-to-speech
+  
   speakBtn.addEventListener("click", () => {
     const text = translationText.textContent.trim();
     if (!text || !synth) return;
