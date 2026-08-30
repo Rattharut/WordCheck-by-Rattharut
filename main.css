@@ -1,29 +1,24 @@
-/* ============================================================
-   WordCheck Web (Translator) — main.css
-   ออกแบบให้ใช้งานได้ทุกแพลตฟอร์ม (มือถือ / แท็บเล็ต / คอม)
-   ============================================================ */
-
 :root {
-  --bg: #ffffff;       /* สีพื้นหลังหลัก (สีขาวสะอาด) */
-  --bg-2: #f4fbf7;     /* สีพื้นหลังรอง (ขาวอมเขียวมิ้นต์จางๆ) */
-  --card: #ffffff;     /* พื้นหลังกล่องข้อความ (สีขาวสว่าง) */
-  --surface: #f0fdf4;  /* สีพื้นผิวทั่วไปภายในกล่อง (เขียวอ่อนพาสเทลละมุนๆ) */
-  --border: #bbf7d0;   /* สีเส้นขอบ (เขียวอ่อน ช่วยให้ดูซอฟต์) */
-  --text: #14532d;     /* สีตัวอักษรหลัก (เขียวเข้มมาก เพื่อให้อ่านง่ายและ Contrast ดี) */
-  --muted: #166534;    /* สีตัวอักษรรอง/คำอธิบาย (เขียวหม่น) */
-  --primary: #22c55e;  /* สีหลัก เช่น ปุ่มแปลภาษา (เขียวใบไม้สดใส) */
-  --primary-2: #16a34a;/* สีหลักเฉดสอง ตอน Hover ปุ่ม (เขียวเข้มขึ้นอีกระดับ) */
-  --accent: #4ade80;   /* สีไฮไลต์/จุดสนใจ (เขียวสว่าง) */
-  --success: #22c55e;  /* สีแจ้งเตือนสำเร็จ */
-  --slate: #334155;    /* สีตัวอักษรกลางๆ ของหัวเรื่อง */
+  --bg: #ffffff;       
+  --bg-2: #f4fbf7;     
+  --card: #ffffff;     
+  --surface: #f0fdf4; 
+  --border: #bbf7d0;  
+  --text: #14532d;     
+  --muted: #166534;    
+  --primary: #22c55e;  
+  --primary-2: #16a34a;
+  --accent: #4ade80;   
+  --success: #22c55e;  
+  --slate: #334155;   
   --slate-light: #64748b;
-  --shadow: 0 0.625rem 1.5rem -0.3rem rgba(22, 101, 52, 0.05); /* เงาสีเขียวจางๆ นุ่มนวลสไตล์คลีน */
-  --radius: 1rem;      /* ความโค้งมนเท่าเดิม */
+  --shadow: 0 0.625rem 1.5rem -0.3rem rgba(22, 101, 52, 0.05); 
+  --radius: 1rem;      
 
-  /* ระยะขอบรอบหน้าเว็บ — ยืดหดตามความกว้างจอ */
+  
   --page-gutter: clamp(0.75rem, 3vw, 2rem);
 
-  /* บังคับโหมดสว่าง กันมือถือบางรุ่นสลับสีช่องกรอกเองตอนเปิด Dark Mode */
+
   color-scheme: light;
 }
 
@@ -33,23 +28,18 @@
   padding: 0;
 }
 
-/* หัวใจของการปรับขนาดตามจอ
-   ทุกขนาดในไฟล์นี้ใช้หน่วย rem ซึ่งอิงจากตัวเลขบรรทัดนี้
-   พอบรรทัดนี้โตขึ้นตามความกว้างจอ ทั้งหน้าเว็บก็โตตามไปพร้อมกันหมด
-   จอเล็ก = 15px  ·  iPad = 16.5px  ·  คอมจอใหญ่ = 18px          */
 html {
   font-size: clamp(0.95rem, 0.9rem + 0.25vw, 1.15rem);
-  -webkit-text-size-adjust: 100%;   /* iOS: กันตัวหนังสือขยายเองตอนหมุนจอแนวนอน */
+  -webkit-text-size-adjust: 100%;   
   text-size-adjust: 100%;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
                "Noto Sans Thai", "Leelawadee UI", "Helvetica Neue", Arial, sans-serif;
-  line-height: 1.6;                 /* ภาษาไทยมีสระบน-ล่าง ต้องการบรรทัดห่างกว่าปกติ */
+  line-height: 1.6;                 
   color: var(--text);
 
-  /* ปรับพื้นหลังให้เป็นสีขาว-เขียวอ่อน คลีนๆ สบายตา */
   background:
     radial-gradient(75rem 37.5rem at 10% -10%, rgba(34, 197, 94, 0.08), transparent 60%),
     radial-gradient(62.5rem 31.25rem at 110% 10%, rgba(74, 222, 128, 0.06), transparent 60%),
@@ -57,32 +47,26 @@ body {
   background-attachment: scroll;
 
   min-height: 100vh;
-  min-height: 100dvh;               /* กันแถบ URL ของมือถือบังเนื้อหา */
+  min-height: 100dvh;               
 
-  /* จัดให้อยู่กลางจอ
-     ใช้ flex + margin:auto ที่ .wrap แทน align-items:center
-     เพราะถ้าเนื้อหายาวเกินจอ วิธีนี้จะไม่ตัดหัวการ์ดหายจนเลื่อนขึ้นไปดูไม่ได้ */
+  
   display: flex;
   justify-content: center;
 
-  /* env(safe-area-inset-*) = เว้นระยะให้พ้นติ่งจอ / ขอบโค้ง / แถบล่างของ iPhone */
   padding-top:    calc(var(--page-gutter) + env(safe-area-inset-top, 0px));
   padding-bottom: calc(var(--page-gutter) + env(safe-area-inset-bottom, 0px));
   padding-left:   calc(var(--page-gutter) + env(safe-area-inset-left, 0px));
   padding-right:  calc(var(--page-gutter) + env(safe-area-inset-right, 0px));
 
-  -webkit-tap-highlight-color: transparent;  /* Android/iOS: ลบกรอบสีตอนแตะ */
+  -webkit-tap-highlight-color: transparent;  
 }
 
 .wrap {
   width: 100%;
   max-width: 55rem;
-  margin: auto;                     /* ตัวที่ทำให้ล็อกอยู่กลางจอทั้งแนวตั้งและแนวนอน */
+  margin: auto;                     
 }
 
-/* ===========================================
-   HEADER
-   =========================================== */
 header {
   text-align: center;
   color: var(--slate);
@@ -114,9 +98,9 @@ header h1 {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  /* กันหัวเรื่องหายไปเลยในเบราว์เซอร์เก่าที่ไม่รองรับ background-clip: text */
+  
   -webkit-text-fill-color: transparent;
-  padding-bottom: 0.1em;            /* กันตัวอักษรที่มีหางถูกตัดตอน clip */
+  padding-bottom: 0.1em;            
 }
 
 @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
@@ -133,9 +117,6 @@ header p {
   font-size: 0.875rem;
 }
 
-/* ===========================================
-   CARDS
-   =========================================== */
 .card {
   background: var(--card);
   border-radius: var(--radius);
@@ -161,7 +142,7 @@ textarea {
   border: 1px solid var(--border);
   border-radius: 0.75rem;
   padding: 0.875rem 1rem;
-  font-size: max(1.0625rem, 16px);  /* ต่ำกว่า 16px เมื่อไหร่ iOS จะซูมจอเองตอนกดช่อง */
+  font-size: max(1.0625rem, 16px); 
   font-family: inherit;
   line-height: 1.6;
   color: var(--text);
@@ -172,7 +153,6 @@ textarea {
 
 textarea:focus {
   border-color: var(--primary);
-  /* เงาตอนโฟกัสสีเขียวมินต์นุ่มๆ */
   box-shadow: 0 0 0 0.25rem rgba(34, 197, 94, 0.12);
 }
 
@@ -189,17 +169,15 @@ textarea:focus {
   color: var(--muted);
 }
 
-/* ===========================================
-   BUTTONS
-   =========================================== */
+
 .btn {
   appearance: none;
   -webkit-appearance: none;
   border: 0;
   cursor: pointer;
-  font-family: inherit;             /* Safari ไม่สืบทอดฟอนต์ให้ปุ่มเอง ต้องสั่งเอง */
+  font-family: inherit;            
   padding: 0.75rem 1.125rem;
-  min-height: 2.75rem;              /* ขนาดปุ่มขั้นต่ำที่นิ้วกดสะดวก ตามเกณฑ์ Apple/Google */
+  min-height: 2.75rem;             
   border-radius: 0.75rem;
   font-weight: 600;
   font-size: 0.875rem;
@@ -207,7 +185,7 @@ textarea:focus {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  touch-action: manipulation;       /* ตัดดีเลย์ 300ms และกันจอซูมเวลากดปุ่มรัว ๆ */
+  touch-action: manipulation;       
   transition: .15s transform, .15s opacity, .15s box-shadow;
 }
 
@@ -215,7 +193,6 @@ textarea:focus {
   transform: translateY(1px);
 }
 
-/* กรอบตอนกด Tab — จำเป็นสำหรับคนที่ใช้คีย์บอร์ดอย่างเดียว */
 .btn:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
@@ -253,7 +230,6 @@ select:focus-visible {
   color: var(--primary);
 }
 
-/* เอฟเฟกต์ hover ให้เฉพาะเครื่องที่มีเมาส์จริง มือถือจะได้ไม่ค้างสีหลังกด */
 @media (hover: hover) and (pointer: fine) {
   .btn-icon:hover { background: #dcfce7; }
   .chip:hover {
@@ -269,16 +245,12 @@ select:focus-visible {
   border-color: transparent;
 }
 
-/* ===========================================
-   SELECT
-   =========================================== */
 select {
   appearance: none;
   -webkit-appearance: none;
   font-family: inherit;
-  font-size: max(0.875rem, 16px);   /* กัน iOS ซูมจอตอนกดเลือกเสียง */
+  font-size: max(0.875rem, 16px);   
   color: var(--text);
-  /* ปรับลูกศร dropdown เป็นโทนสีเขียว */
   background: var(--surface) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23166534' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>") no-repeat right 0.75rem center;
   border: 1px solid var(--border);
   border-radius: 0.625rem;
@@ -294,9 +266,6 @@ select:focus {
   border-color: var(--primary);
 }
 
-/* ===========================================
-   RESULT
-   =========================================== */
 .result-head {
   display: flex;
   justify-content: space-between;
@@ -305,8 +274,6 @@ select:focus {
   flex-wrap: wrap;
 }
 
-/* แทน style="flex:1;min-width:240px" ที่เคยแปะไว้ใน HTML
-   min-width:0 สำคัญมาก — กันกล่องดันขยายจนล้นจอเวลาคำแปลยาว */
 .result-main {
   flex: 1 1 auto;
   min-width: 0;
@@ -329,7 +296,7 @@ select:focus {
   font-weight: 600;
   letter-spacing: -.01em;
   line-height: 1.3;
-  overflow-wrap: break-word;         /* คำแปลยาวๆ ตัดบรรทัดแทนที่จะดันจอ */
+  overflow-wrap: break-word;         
   word-break: break-word;
 }
 
@@ -412,8 +379,6 @@ select:focus {
   border-radius: 0.75rem;
 }
 
-/* แจ้งให้ทราบเฉยๆ ไม่ใช่ข้อผิดพลาด ใช้ตอนแปลสำเร็จแต่ได้มาจากแหล่งสำรอง
-   ไม่ใช้สีแดง เพราะการแปลสำเร็จแล้ว ไม่ควรทำให้ดูเหมือนเว็บพัง */
 .notice {
   color: var(--muted);
   background: var(--surface);
@@ -444,12 +409,6 @@ footer {
   margin-top: 1.5rem;
 }
 
-/* ============================================================
-   Responsive — ปรับตามขนาดจอ
-   ขนาดตัวหนังสือขยายเองจาก html { font-size: clamp(...) } ด้านบนแล้ว
-   ============================================================ */
-
-/* มือถือ — ปุ่มและ dropdown เต็มความกว้าง กดง่ายกว่า */
 @media (max-width: 32.5rem) {
   .btn { width: 100%; }
   .btn-icon { width: 2.625rem; }
@@ -459,12 +418,10 @@ footer {
   .voice-row { align-items: stretch; }
 }
 
-/* จอคอมใหญ่ */
 @media (min-width: 100rem) {
   .wrap { max-width: 60rem; }
 }
 
-/* มือถือหมุนแนวนอน จอเตี้ยมาก — บีบระยะห่างลงให้เห็นครบในจอเดียว */
 @media (max-height: 30rem) and (orientation: landscape) {
   body { --page-gutter: 0.75rem; }
   header { margin-bottom: 1rem; }
@@ -472,7 +429,6 @@ footer {
   footer { margin-top: 1rem; }
 }
 
-/* เคารพการตั้งค่า ลดการเคลื่อนไหว ของเครื่องผู้ใช้ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
@@ -482,7 +438,6 @@ footer {
   .spinner { animation-duration: 1.6s !important; }
 }
 
-/* สั่งพิมพ์ */
 @media print {
   body { background: none; padding: 0; display: block; }
   .wrap { max-width: none; margin: 0; }
